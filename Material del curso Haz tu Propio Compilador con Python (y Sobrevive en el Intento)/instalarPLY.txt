@@ -1,0 +1,4 @@
+Instalar PLY
+1. Asegúrate de que tu terminal esté en el directorio correcto.
+2. Ejecuta el siguiente comando para instalar PLY:
+pip install ply

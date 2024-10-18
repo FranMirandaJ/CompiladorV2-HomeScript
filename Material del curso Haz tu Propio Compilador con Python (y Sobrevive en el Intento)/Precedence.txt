@@ -1,0 +1,6 @@
+precedence = (
+    ('left', 'IGUAL', 'DIFERENTE'),
+    ('left', 'MENORQUE', 'MENORIGUAL', 'MAYORQUE', 'MAYORIGUAL'),
+    ('left', 'SUMA', 'RESTA'),
+    ('left', 'MULTIPLICACION', 'DIVISION')
+)

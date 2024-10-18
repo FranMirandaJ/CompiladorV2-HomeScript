@@ -1,0 +1,9 @@
+def analisis(cadena):
+    lexer.input(cadena)
+    tokens = []
+    # Inicia el número de línea en 1
+    lexer.lineno = 1
+    for tok in lexer:
+        columna = tok.lexpos - cadena.rfind('\n', 0, tok.lexpos)
+        tokens.append((tok.value, tok.type, tok.lineno, columna))
+    return tokens

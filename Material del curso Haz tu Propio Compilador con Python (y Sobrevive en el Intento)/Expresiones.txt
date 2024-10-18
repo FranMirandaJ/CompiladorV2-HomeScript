@@ -1,0 +1,62 @@
+# Expresiones
+def p_expresion_suma(p):
+    'expresion : expresion SUMA expresion'
+    p[0] = p[1] + p[3]
+
+def p_expresion_resta(p):
+    'expresion : expresion RESTA expresion'
+    p[0] = p[1] - p[3]
+
+def p_expresion_mult(p):
+    'expresion : expresion MULTIPLICACION expresion'
+    p[0] = p[1] * p[3]
+
+def p_expresion_div(p):
+    'expresion : expresion DIVISION expresion'
+    if p[3] != 0:
+        p[0] = p[1] / p[3]
+        if(p[0]%1 == 0):
+            p[0] = int(p[0])
+        
+
+def p_expresion_comparacion(p):
+    '''
+    expresion : expresion MENORQUE expresion
+              | expresion MENORIGUAL expresion
+              | expresion MAYORQUE expresion
+              | expresion MAYORIGUAL expresion
+    '''
+    
+    if p[2] == '<':
+        p[0] = p[1] < p[3]
+    elif p[2] == '<=':
+        p[0] = p[1] <= p[3]
+    elif p[2] == '>':
+        p[0] = p[1] > p[3]
+    elif p[2] == '>=':
+        p[0] = p[1] >= p[3]
+
+def p_expresion_comparacion2(p):
+    '''
+    expresion : expresion IGUAL expresion
+              | expresion DIFERENTE expresion
+    '''
+    
+    if p[2] == '==':
+        p[0] = p[1] == p[3]
+    elif p[2] == '!=':
+        p[0] = p[1] != p[3]
+
+def p_expresion(p):
+    """
+    expresion : PARENTESIS_A expresion PARENTESIS_B
+              | NUMERO
+              | REAL
+              | CADENA
+              | True
+              | False
+    """
+    if len(p) == 4:
+        p[0] = p[2]
+    else:
+        p[0] = p[1]
