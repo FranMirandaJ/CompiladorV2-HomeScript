@@ -15,7 +15,7 @@ def limpiar_errores_lex():
 reservadas = [
     'IMPRIMIR', 'SI', 'SINO', 'PARACADA', 'EN', 'SISTEMA', 'FUNCION', 'RETORNO', 'RETORNAR',
     'LOOP_PRINCIPAL', 'ARREGLO', 'TIPO_FECHA', 'TIPO_HORA', 'TIPO_BOOL', 'TIPO_ENTERO', 'TIPO_REAL',
-    'TIPO_CADENA', 'TIPO_SENSOR', 'TIPO_DISPOSITIVO'
+    'TIPO_CADENA', 'TIPO_SENSOR', 'TIPO_DISPOSITIVO', 'DEF_CONF', 'DEF_AUTO'
 ]
 
 tokens = [
@@ -104,6 +104,10 @@ def t_IDENTIFICADOR(t):
         t.type = 'TIPO_BOOL'
     elif t.value == 'arreglo':
         t.type = 'ARREGLO'
+    elif t.value == 'def_conf':
+        t.type = 'DEF_CONF'
+    elif t.value == 'def_auto':
+        t.type = 'DEF_AUTO'
     elif t.value == 'loop_principal':
         t.type = 'LOOP_PRINCIPAL'
     elif t.value == 'imprimir':
@@ -169,7 +173,8 @@ def analisis(cadena):   #funcion recibe 'cadena'
 
 if __name__ == '__main__':
     codigo = """
-        Dispositivo disp = Luz("asd"); Sensor sensor
+        Dispositivo disp = Luz("asd"); Sensor sensor -- ++
+        def_auto def_conf loop_principal si_no para_cada
          """
 
     print(analisis(codigo))
