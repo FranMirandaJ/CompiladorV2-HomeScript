@@ -30,6 +30,13 @@ tokens = [
 
 tokens += reservadas;
 
+#metodo para identificadores no validos
+def t_IDError(t):
+    r'\d+[a-zA-ZñÑ][a-zA-Z0-9ñÑ]*'
+    global errores_Desc
+    errores_Desc.append("Identificador no valido en la linea "+str(t.lineno))
+
+
 t_ignore = ' \t'
 t_SUMA = r'\+'
 t_RESTA = r'\-'
@@ -67,10 +74,10 @@ def t_IDENTIFICADOR(t):
         t.type = 'SI'
     elif t.value == 'si-no':
         t.type = 'SINO'
-    elif t.value == 'para-cada':
+    elif t.value == 'para_cada':
         t.type = 'PARACADA'
     elif t.value == 'en':
-        t.value == 'EN'
+        t.type = 'EN'
     elif t.value == 'funcion':
         t.type = 'FUNCION'
     elif t.value == 'retornar':
@@ -85,36 +92,29 @@ def t_IDENTIFICADOR(t):
         t.type = 'TIPO_REAL'
     elif t.value == 'cadena':
         t.type = 'TIPO_CADENA'
-    elif t.value == 'dispositivo':
+    elif t.value == 'Dispositivo':
         t.type = 'TIPO_DISPOSITIVO'
-    elif t.value == 'sensor':
+    elif t.value == 'Sensor':
         t.type = 'TIPO_SENSOR'
     elif t.value == 'fecha':
         t.type = 'TIPO_FECHA'
     elif t.value == 'hora':
-        t.type == 'TIPO_HORA'
+        t.type = 'TIPO_HORA'
     elif t.value == 'bool':
-        t.type == 'TIPO_BOOL'
+        t.type = 'TIPO_BOOL'
     elif t.value == 'arreglo':
-        t.type == 'ARREGLO'
-    elif t.value == 'loop-principal':
-        t.type == 'LOOP_PRINCIPAL'
+        t.type = 'ARREGLO'
+    elif t.value == 'loop_principal':
+        t.type = 'LOOP_PRINCIPAL'
     elif t.value == 'imprimir':
-        t.type == 'IMPRIMIR'
+        t.type = 'IMPRIMIR'
     elif t.value == 'verdad':
-        t.type == 'verdad'
+        t.type = 'verdad'
     elif t.value == 'falso':
-        t.type == 'falso'
+        t.type = 'falso'
     else:
         t.type = 'ID'
     return t
-
-#metodo para identificadores no validos
-def t_IDError(t):
-    r'\d+[a-zA-ZñÑ][a-zA-Z0-9ñÑ]*'
-    global errores_Desc
-    errores_Desc.append("Identificador no valido en la linea "+str(t.lineno))
-
 
 def t_SALTOLINEA(t):
     r'\n+'
@@ -169,11 +169,7 @@ def analisis(cadena):   #funcion recibe 'cadena'
 
 if __name__ == '__main__':
     codigo = """
-//
-dispositivo 1luzEntrada = Luz("Entrada");
-dispositivo luzñEntrada2 = Luz("Entrada");
-dispositivo 12_camaraPrincipal = Camara("Entrada");
-
+        Dispositivo disp = Luz("asd"); Sensor sensor
          """
 
     print(analisis(codigo))
