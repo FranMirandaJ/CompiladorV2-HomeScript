@@ -30,12 +30,6 @@ tokens = [
 
 tokens += reservadas;
 
-#METODO PARA IDENTIFICADORES NO VALIDOS
-def t_IDError(t):
-    r'\d+[a-zA-ZñÑ][a-zA-Z0-9ñÑ]*'  #INICIA CON 1 O MAS DIGITOS, SEGUIDO DE UNA LETRA, SEGUIDO DE 0 O MAS LETRAS Y DIGITOS
-    global errores_Desc
-    errores_Desc.append("Identificador no válido en la linea " + str(t.lineno) + ", columna " + str(find_column(t.lexer.lexdata, t)))
-
 t_ignore = ' \t'
 t_SUMA = r'\+'
 t_RESTA = r'\-'
@@ -67,7 +61,8 @@ t_NOT = r'\!'
 
 #METODO PARA IDENTIFICADORES
 def t_IDENTIFICADOR(t):
-    r'[a-zA-Z][a-zA-Z0-9]*'
+    r'[a-zA-Z][a-zA-Z0-9_]*'
+    
     if t.value == 'si':
         t.type = 'SI'
     elif t.value == 'si-no':
@@ -113,6 +108,12 @@ def t_IDENTIFICADOR(t):
     else:
         t.type = 'ID'
     return t
+
+#metodo para identificadores no validos
+def t_IDError(t):
+    r'\d+[a-zA-ZñÑ][a-zA-Z0-9ñÑ]*'
+    global errores_Desc
+    errores_Desc.append("Identificador no valido en la linea "+str(t.lineno))
 
 
 def t_SALTOLINEA(t):
@@ -168,12 +169,10 @@ def analisis(cadena):   #funcion recibe 'cadena'
 
 if __name__ == '__main__':
     codigo = """
-// ########## Definir dispositivos y sensores del hogar ########## 
-@
-// entrada (exterior)------------------------------------------------------------------
+//
 dispositivo 1luzEntrada = Luz("Entrada");
-dispositivo luzEntrada2 = Luz("Entrada");
-dispositivo camaraPrincipal = Camara("Entrada");
+dispositivo luzñEntrada2 = Luz("Entrada");
+dispositivo 12_camaraPrincipal = Camara("Entrada");
 
          """
 
