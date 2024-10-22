@@ -14,7 +14,7 @@ def limpiar_errores_lex():
 
 reservadas = [
     'IMPRIMIR', 'SI', 'SINO', 'PARACADA', 'EN', 'SISTEMA', 'FUNCION', 'RETORNO', 'RETORNAR',
-    'LOOP_PRINCIPAL', 'ARREGLO', 'TIPO_FECHA', 'TIPO_HORA', 'TIPO_BOOL', 'TIPO_ENTERO', 'TIPO_REAL',
+    'LOOP_PRINCIPAL', 'TIPO_FECHA', 'TIPO_HORA', 'TIPO_BOOL', 'TIPO_ENTERO', 'TIPO_REAL',
     'TIPO_CADENA', 'TIPO_SENSOR', 'TIPO_DISPOSITIVO', 'DEF_CONF', 'DEF_AUTO'
 ]
 
@@ -24,7 +24,7 @@ tokens = [
     'MENORIGUAL', 'MAYORIGUAL', 'PUNTO', 'COMA', 'PUNTOCOMA',
     'COMILLASIMPLE', 'COMILLADOBLE', 'PARENTESIS_IZQ', 'PARENTESIS_DER', 'LLAVE_IZQ',
     'LLAVE_DER', 'CORCHETE_IZQ', 'CORCHETE_DER', 'MASMAS', 'MENOSMENOS', 'AND', 'OR', 'NOT',
-    'ID', 'NUMERO', 'REAL', 'verdad', 'falso', 'COMENTARIO', 'BLOQUE_COMENTARIOS'
+    'ID', 'NUMERO', 'REAL', 'CADENA', 'verdad', 'falso', 'COMENTARIO', 'BLOQUE_COMENTARIOS'
     
 ]
 
@@ -102,8 +102,6 @@ def t_IDENTIFICADOR(t):
         t.type = 'TIPO_HORA'
     elif t.value == 'bool':
         t.type = 'TIPO_BOOL'
-    elif t.value == 'arreglo':
-        t.type = 'ARREGLO'
     elif t.value == 'def_conf':
         t.type = 'DEF_CONF'
     elif t.value == 'def_auto':
@@ -173,8 +171,7 @@ def analisis(cadena):   #funcion recibe 'cadena'
 
 if __name__ == '__main__':
     codigo = """
-        Dispositivo disp = Luz("asd"); Sensor sensor -- ++
-        def_auto def_conf loop_principal si_no para_cada
+imprimir("hola"); retornar arreglo
          """
 
     print(analisis(codigo))
