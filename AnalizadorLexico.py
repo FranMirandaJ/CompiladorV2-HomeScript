@@ -171,7 +171,15 @@ def analisis(cadena):   #funcion recibe 'cadena'
 
 if __name__ == '__main__':
     codigo = """
-imprimir("hola"); retornar arreglo
+        def_conf {
+
+         }
+         def_auto {
+
+         }
+         loop_principal {
+         
+         }
          """
 
     print(analisis(codigo))

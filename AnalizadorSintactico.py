@@ -41,10 +41,9 @@ def p_bloqueCodigoDefConf(p):
 
 def p_listaDeclaracionesAsignaciones(p): 
     """
-    listaDeclaracionesAsignaciones : declaracionVariable
-                                   | declaracionAsignacionVariable
-                                   | sentAsignacion
-                                   | listaDeclaracionesAsignaciones listaDeclaracionesAsignaciones
+    listaDeclaracionesAsignaciones : declaracionVariable listaDeclaracionesAsignaciones
+                                   | declaracionAsignacionVariable listaDeclaracionesAsignaciones
+                                   | sentAsignacion listaDeclaracionesAsignaciones
                                    | empty
     """
     print('listaDeclaracionesAsignaciones')
@@ -57,14 +56,13 @@ def p_defAuto(p):
 
 def  p_bloqueCodigoDefAuto(p):
     """
-    bloqueCodigoDefAuto : LLAVE_IZQ listaFunciones LLAVER_DER
+    bloqueCodigoDefAuto : LLAVE_IZQ listaFunciones LLAVE_DER
     """
     print('bloqueCodigoDefAuto')
 
 def p_listaFunciones(p):
     """
-    listaFunciones : declaracionFuncion
-                   | listaFunciones listaFunciones
+    listaFunciones : declaracionFuncion listaFunciones
                    | empty
     """
     print('listaFunciones')
@@ -106,7 +104,7 @@ def p_sentencia(p):
 
 def p_declaracionVariable(p):
     """
-    declaracionVariable : tipoDato ID PUNTO_COMA
+    declaracionVariable : tipoDato ID PUNTOCOMA
                         | tipoDato CORCHETE_IZQ CORCHETE_DER ID PUNTOCOMA
     """
     print('declaracionVariable')
@@ -245,7 +243,7 @@ def p_sentParaCada(p):
 
 def p_llamarFuncion(p):
     """
-    llamarFuncion : ID PARENTESIS_IZQ listaArgumentos PARENTESIS_DER PUNTOCOMA
+    llamarFuncion : instanciaObj
                   | SISTEMA PUNTO ID PARENTESIS_IZQ listaArgumentos PARENTESIS_DER PUNTOCOMA
                   | ID PUNTO ID PARENTESIS_IZQ listaArgumentos PARENTESIS_DER PUNTOCOMA
     """
@@ -279,12 +277,6 @@ def p_imprimir(p):
     """
     print('imprimir')
 
-def p_imprimir(p):
-    """
-    imprimir : IMPRIMIR PARENTESIS_IZQ CADENA PARENTESIS_DER PUNTOCOMA
-    """
-    print('imprimir')
-
 def p_retornar(p):
     """
     retornar : RETORNAR expresion PUNTOCOMA
@@ -310,10 +302,15 @@ def p_empty(p):
     'empty :'
     pass
 
+def p_error(p):
+    if p:
+        print(f"Syntax error at line {p.lineno}, token={p.type}")
+    else:
+        print("Syntax error at EOF")
 
 
 #CONSTRUIR ANALIZADOR
-parser = yacc.yacc()
+parser = yacc.yacc(debug=True)
 
 def test_parser(codigo,lin):
     global linea
@@ -322,14 +319,10 @@ def test_parser(codigo,lin):
     print(result)
 
 codigo = """
-         BEGIN {
-            IF (8>5) {
-                WHILE (12 == 2) {
-                    int variable = 2 ;
-                }
-            }
-         } END
+         def_conf { }
+         def_auto { }
+         loop_principal { }
          """
 
 test_parser(codigo,0)
-print(errores_Sinc_Desc)
+#print(errores_Sinc_Desc)
