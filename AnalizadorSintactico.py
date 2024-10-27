@@ -81,8 +81,8 @@ def p_bloqueCodigo(p):
 
 def p_listaSentencias(p):
     """
-    listaSentencias : sentencia
-                    | listaSentencias listaSentencias
+    listaSentencias : sentencia listaSentencias
+                    | empty
     """
     print('listaSentencias')
 

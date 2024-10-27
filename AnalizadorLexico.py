@@ -171,12 +171,6 @@ def analisis(cadena):   #funcion recibe 'cadena'
 
 if __name__ == '__main__':
     codigo = """
-        def_conf {
-
-         }
-         def_auto {
-
-         }
          loop_principal {
          
          }
