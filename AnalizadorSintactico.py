@@ -23,21 +23,22 @@ def p_programa(p):
     """
     programa : defConf defAuto bloqueLoop
     """
-    #p[0] = ('programa', [p[1],p[2],p[3]])
-    print('programa')
+    p[0] = ('programa', [p[1],p[2],p[3]])
+    #print('programa')
 
 def p_defConf(p): 
     """
     defConf : DEF_CONF bloqueCodigoDefConf
     """
-    #p[0] = ('defConf', p[2])
-    print('defConf')
+    p[0] = ('defConf', p[2])
+    #print('defConf')
 
 def p_bloqueCodigoDefConf(p): 
     """
     bloqueCodigoDefConf : LLAVE_IZQ listaDeclaracionesAsignaciones LLAVE_DER
     """
-    print('bloqueCodigoDefConf')
+    p[0] = ('bloqueCodigoDefConf',p[2])
+    #print('bloqueCodigoDefConf')
 
 def p_listaDeclaracionesAsignaciones(p): 
     """
@@ -46,45 +47,61 @@ def p_listaDeclaracionesAsignaciones(p):
                                    | sentAsignacion listaDeclaracionesAsignaciones
                                    | empty
     """
-    print('listaDeclaracionesAsignaciones')
+    if len(p) == 3 :
+        p[0] = [p[1]] + ([p[2]] if p[2] else [])
+    else:
+        p[0] = []
+    #print('listaDeclaracionesAsignaciones')
 
 def p_defAuto(p):
     """
     defAuto : DEF_AUTO bloqueCodigoDefAuto
     """
-    print('defAuto')
+    p[0] = ('defAuto',p[2])
+    #print('defAuto')
 
 def  p_bloqueCodigoDefAuto(p):
     """
     bloqueCodigoDefAuto : LLAVE_IZQ listaFunciones LLAVE_DER
     """
-    print('bloqueCodigoDefAuto')
+    p[0] = ('bloqueCodigoDefAuto',p[2])
+    #print('bloqueCodigoDefAuto')
 
 def p_listaFunciones(p):
     """
     listaFunciones : declaracionFuncion listaFunciones
                    | empty
     """
-    print('listaFunciones')
+    if len(p) == 3 :
+        p[0] = [p[1]] + ([p[2]] if p[2] else [])
+    else:
+        p[0] = []
+    #print('listaFunciones')
 
 def p_bloqueLoop(p):
     """
     bloqueLoop : LOOP_PRINCIPAL bloqueCodigo
     """
-    print('bloqueLoop')
+    p[0] = ('bloqueLoop',p[2])
+    #print('bloqueLoop')
 
 def p_bloqueCodigo(p):
     """
     bloqueCodigo : LLAVE_IZQ listaSentencias LLAVE_DER
     """
-    print('bloqueCodigo')
+    p[0] = ('bloqueCodigo',p[2])
+    #print('bloqueCodigo')
 
 def p_listaSentencias(p):
     """
     listaSentencias : sentencia listaSentencias
                     | empty
     """
-    print('listaSentencias')
+    if len(p) == 3 :
+        p[0] = [p[1]] + ([p[2]] if p[2] else [])
+    else:
+        p[0] = []
+    # print('listaSentencias')
 
 def p_sentencia(p):
     """
@@ -100,14 +117,19 @@ def p_sentencia(p):
               | incremento
               | decremento
     """
-    print('sentencia')
+    p[0] = p[1]
+    #print('sentencia')
 
 def p_declaracionVariable(p):
     """
     declaracionVariable : tipoDato ID PUNTOCOMA
                         | tipoDato CORCHETE_IZQ CORCHETE_DER ID PUNTOCOMA
     """
-    print('declaracionVariable')
+    if len(p) == 4:
+        p[0] = ('declaracionVariable',p[1],p[2]) # Declaración de una variable
+    else:
+        p[0] = ('declaracionArreglo',p[1],p[4]) # Declaración de un arreglo
+    #print('declaracionVariable')
 
 def p_declaracionAsignacionVariable(p):
     """
@@ -116,7 +138,11 @@ def p_declaracionAsignacionVariable(p):
                                   | tipoDato ID ASIGNACION instanciaObj PUNTOCOMA
                                   | tipoDato CORCHETE_IZQ CORCHETE_DER ID ASIGNACION bloqueArgumentos PUNTOCOMA
     """
-    print('declaracionAsignacionVariable')
+    if len(p) == 6:
+        p[0] = ('declaracionAsignacionVariable',p[1],p[2],p[4])
+    else:
+        p[0] = ('declaracionAsignacionArreglo',p[1],p[4],p[6])
+    #print('declaracionAsignacionVariable')
 
 def p_sentAsignacion(p):
     """
@@ -319,7 +345,7 @@ def test_parser(codigo,lin):
     print(result)
 
 codigo = """
-         def_conf { }
+         def_conf { entero a = 2; }
          def_auto { }
          loop_principal { }
          """
